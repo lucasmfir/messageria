@@ -30,7 +30,7 @@ public class TesteProdutorFila {
         Destination fila = (Destination) context.lookup("financeiro");
         MessageProducer producer = session.createProducer(fila);
         
-        Message msg = session.createTextMessage("teste1");
+        Message msg = session.createTextMessage("msg_teste");
         
         producer.send(msg); 
 

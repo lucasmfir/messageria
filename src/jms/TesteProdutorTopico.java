@@ -1,5 +1,6 @@
 package jms;
 
+import java.io.StringWriter;
 import java.util.Scanner;
 
 import javax.jms.Connection;
@@ -12,7 +13,9 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.InitialContext;
+import javax.xml.bind.JAXB;
 import javax.jms.Message;
+import br.com.caelum.modelo.*;
 
 public class TesteProdutorTopico {
 
@@ -30,7 +33,18 @@ public class TesteProdutorTopico {
         Destination fila = (Destination) context.lookup("loja");
         MessageProducer producer = session.createProducer(fila);
         
-        Message msg = session.createTextMessage("teste_topico3");
+        
+        Pedido pedido = new PedidoFactory().geraPedidoComValores();
+        Message msg = session.createObjectMessage(pedido);
+        
+        //StringWriter writer = new StringWriter();
+        //JAXB.marshal(pedido, writer);
+        //String xml = writer.toString();
+
+        //Message msg = session.createTextMessage(xml);
+        
+        //Message msg = session.createTextMessage("teste_topicoS");
+        //msg.setBooleanProperty("ebook", true);
         
         producer.send(msg); 
 

@@ -24,7 +24,7 @@ public class TesteConsumidorFila {
         Connection conn = factory.createConnection();
         conn.start();
 
-        Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Session session = conn.createSession(true, Session.SESSION_TRANSACTED);
         
         Destination fila = (Destination) context.lookup("financeiro");
         MessageConsumer consumer = session.createConsumer(fila);
@@ -35,14 +35,14 @@ public class TesteConsumidorFila {
         		TextMessage textMessage = (TextMessage)msg;
         		try {
                     System.out.println(textMessage.getText());
+                    session.commit();
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
         	}
 
         });
-        
-        
+               
         new Scanner(System.in).nextLine(); //finaliza programa
 
         session.close();
